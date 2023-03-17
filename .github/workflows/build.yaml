@@ -32,25 +32,28 @@ jobs:
           tags: |
                   type=ref, event=branch
                   type=sha
+                  
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Send Slack SUCCESS notification
-        uses: rtCamp/action-slack-notify@v2
-        if: success()
-        env:
-          SLACK_CHANNEL: nickvab_git
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_TITLE: Message
-          SLACK_MESSAGE: 'Image ${{ github.repository }}:${{ github.ref_name }} was pushed with SUCCESS result'
-          SLACK_USERNAME: ${{ github.repository }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Report Status
+      if: always()
+      uses: ravsamhq/notify-slack-action@v1
+      with:
+      status: ${{ job.status }}
+      notify_when: 'success'
+      env:
+      SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-      - name: Send Slack FAIL notification
-        uses: rtCamp/action-slack-notify@v2
-        if: failure()
-        env:
-          SLACK_CHANNEL: nickvab_git
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_TITLE: Message
-          SLACK_MESSAGE: 'Image ${{ github.repository }}:${{ github.ref_name }} was pushed with FAIL result'
-          SLACK_USERNAME: ${{ github.repository }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      if: always()
+      uses: ravsamhq/notify-slack-action@v1
+      with:
+      status: ${{ job.status }}
+      notify_when: 'failure'
+      env:
+      SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
