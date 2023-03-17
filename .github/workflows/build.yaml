@@ -41,7 +41,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Report Status
+      - name: Report Status success
       if: always()
       uses: ravsamhq/notify-slack-action@v1
       with:
@@ -50,6 +50,7 @@ jobs:
       env:
       SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
+      - name: Report fail
       if: always()
       uses: ravsamhq/notify-slack-action@v1
       with:
