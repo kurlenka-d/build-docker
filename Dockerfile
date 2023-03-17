@@ -2,7 +2,7 @@ FROM python:3.8-slim-buster
 
 LABEL MAINTAINER="Dzmitry Kurlenka"
 
-LABEL description="Python echo reply"
+LABEL description="Python echo reply port"
 
 WORKDIR /src
 
