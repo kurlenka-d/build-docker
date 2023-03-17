@@ -40,11 +40,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          
+      
       - name: Notify Slack Action
-  uses: ravsamhq/notify-slack-action@v2
+      uses: ravsamhq/notify-slack-action@v2
       if: always()
-    with:
+      with:
       status: ${{ job.status }} # required
-    env:
+      env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
