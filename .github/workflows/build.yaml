@@ -39,8 +39,7 @@ steps:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Report Status  
+      - name: Send messege
         uses: ravsamhq/notify-slack-action@v2
         if: always()
         with:
@@ -52,4 +51,3 @@ steps:
         notify_when: "failure"
         env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      
