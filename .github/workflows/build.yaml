@@ -12,7 +12,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -32,7 +31,14 @@ jobs:
           tags: |
                   type=ref, event=branch
                   type=sha
-
+                  
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       - name: Send Slack SUCCESS notification
         uses: rtCamp/action-slack-notify@v2
         if: success()
