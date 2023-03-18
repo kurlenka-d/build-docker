@@ -50,4 +50,4 @@ jobs:
          footer: "Linked Repo <{repo_url}|{repo}> | <{workflow_url}|View Workflow>"
          notify_when: "failure"
         env:
-         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+         SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
