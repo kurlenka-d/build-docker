@@ -47,4 +47,4 @@ jobs:
            SLACK_ICON: https://github.com/rtCamp.png?size=48
            SLACK_TITLE: Post Title
            SLACK_USERNAME: rtCamp
-           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+           SLACK_WEBHOOK: https://hooks.slack.com/services/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
