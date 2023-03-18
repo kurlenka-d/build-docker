@@ -39,12 +39,24 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Slack Notification
+      - name: Send Slack SUCCESS notification
         uses: rtCamp/action-slack-notify@v2
+        if: success()
         env:
-           SLACK_CHANNEL: test_my_repo
-           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-           SLACK_ICON: https://github.com/rtCamp.png?size=48
-           SLACK_TITLE: Post Title
-           SLACK_USERNAME: rtCamp
-           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: nickvab_git
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: Message
+          SLACK_MESSAGE: 'Image ${{ github.repository }}:${{ github.ref_name }} was pushed with SUCCESS result'
+          SLACK_USERNAME: ${{ github.repository }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Send Slack FAIL notification
+        uses: rtCamp/action-slack-notify@v2
+        if: failure()
+        env:
+          SLACK_CHANNEL: nickvab_git
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: Message
+          SLACK_MESSAGE: 'Image ${{ github.repository }}:${{ github.ref_name }} was pushed with FAIL result'
+          SLACK_USERNAME: ${{ github.repository }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
